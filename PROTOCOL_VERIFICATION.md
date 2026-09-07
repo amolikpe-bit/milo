@@ -17,6 +17,8 @@
 
 Source fingerprint: `8fe02a3949879a87cead236e92414449b2b4ece614d03783b6012cf4ca67bd96` (SHA-256 of `packages/contract/src/order.compact`). The checked [compiler receipt](docs/receipts/compact-0.31.1.json) records all final artifact fingerprints. Large generated artifacts stay ignored and are rebuilt, not manually edited or represented by fabricated chain receipts. CI now performs full compilation before typecheck/tests; remote CI is not assumed from local success.
 
+The contract checkpoint was replayed as `25c67ac` onto current `main` after the existing PR was discovered already merged. Its tested source fingerprint is unchanged; this run did not merge any PR.
+
 ## What was exercised
 
 - Typed TypeScript/Compact terms round trip and fixed commitment vectors; every terms field, salt, network, nonce and role changes its commitment.
@@ -31,5 +33,7 @@ The [contract disclosure inventory](packages/contract/README.md) states all publ
 ## Remaining M-01–M-03 / R1 work
 
 The [digest-pinned local-network candidate](docs/local-network-candidate.md) has not been executed. It has a distinct local node/indexer cohort, isolated configuration and a private backing-service configuration gate; metadata and health-check definitions do not establish compatibility.
+
+**Observed platform blocker:** Docker runtime replacement was attempted twice and refused with “cannot be replaced while another operation is active.” Compiler/test sessions had exited successfully, all child agents were inactive and then closed, and process/health inspection showed no application/compiler job. Effective setup remains `sh scripts/setup.sh`. The issue was reported; no runtime controls were bypassed and no network was started. A successful compiler setup before the Compose candidate is not proof of fresh Docker-capable setup.
 
 Still required: a supported Docker runtime and fresh network health; verified standalone configuration and actual image identities; isolated funded actors and reset; real prove → submit → finalized successful observation; malicious deployment/verifier substitution and non-upgradable maintenance/admission checks; transaction races and recovery at their real provider boundaries. M-01 remains open, so dependent M-02/M-03 and R1 are not closed by this bounded deliverable. Sponsorship and all optional work remain deferred.

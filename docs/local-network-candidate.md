@@ -4,7 +4,10 @@
 supports the M-01–M-03 technical gate, not browser, payment or production work.
 Canonical requirements remain [Blueprint §6.2](../01-blueprint.md#62-midnight-protocol-cohort)
 and [Roadmap](../02-roadmap.md). Preserve compiler artifacts before any sandbox
-replacement. This document does not report a Docker reprovision attempt.
+replacement. Runtime replacement was attempted twice after compiler verification;
+the platform refused it with another operation active despite completed sessions
+and closed child agents. The blocker was reported; Docker and this network have
+not run. See [the execution receipt](../PROTOCOL_VERIFICATION.md).
 
 ## Source and cohort receipt
 

@@ -13,6 +13,8 @@ Changes are grouped by verified scope. “Added” does not mean a live service 
 - Full verification passes: 33 tests/381 assertions, lint, typecheck, static build and canonical document checks. Added the negative disclosure compiler control and complete hashed artifact receipt.
 - Added pinned Firecrawl CLI 1.23.3 as a development tool. Its real keyless Developer Index request was denied for this IP; the authenticated Developer Index integration succeeded. No CLI success or credentials are invented.
 - Added an isolated digest-pinned Compose candidate, not an executed network. M-01–M-03 and R1 remain open: real prove/submit/observe and admission/maintenance checks are unfinished. Provider/operation evidence remains **0/6 and 0/14**.
+- Docker runtime replacement was refused twice by the platform's active-operation guard after local jobs completed; reported and recorded as BLOCKED, not a successful network setup.
+- PR #1 was discovered already merged outside this run. The authorized branch-rotation tool replayed the preserved toolchain/contract checkpoints onto current `main` for an independent follow-up PR; this run did not merge or close it.
 
 ## Earlier checkpoint — synthetic UI prototype
 
