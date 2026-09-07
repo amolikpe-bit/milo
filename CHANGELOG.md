@@ -2,13 +2,17 @@
 
 Changes are grouped by verified scope. “Added” does not mean a live service or a passed integration gate. Execution status lives in [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md).
 
-## Unreleased — local protocol work started
+## Unreleased — verified local compiler/runtime slice
 
 - M-01–M-03 moved from PENDING to ONGOING without claiming R1.
 - Installed Compact devtools 0.5.1 and compiler 0.31.1 from exact official release archives with checked publisher SHA-256 digests; setup is repository-owned and Linux x86_64 scoped.
 - Selected Compact runtime 0.16.0 and on-chain runtime 3.0.0 together, avoiding a silently newer duplicate transitive runtime. Added a real WASM identity/version canary; no blanket overrides.
 - Rechecked current official support matrix through Firecrawl. Newer compiler releases are not adopted merely because they exist. The authenticated Firecrawl integration is available; sandbox CLI credentials are not.
-- Contract compilation, circuit/admission tests and real prove/submit/observe are still unfinished at this toolchain checkpoint. Provider/operation evidence remains **0/6 and 0/14**.
+- Original Compact order contract now compiles without skip flags: all 14 circuit artifact sets and 60 artifact hashes verified. Terms/capabilities, public timeouts and independent role actions use actual generated code, not the UI simulator.
+- Corrected constructor-only bootstrap checks and an unintended public currency field after independent review. Raw-ledger injection and private fixed-currency policy regressions pass.
+- Full verification passes: 33 tests/381 assertions, lint, typecheck, static build and canonical document checks. Added the negative disclosure compiler control and complete hashed artifact receipt.
+- Added pinned Firecrawl CLI 1.23.3 as a development tool. Its real keyless Developer Index request was denied for this IP; the authenticated Developer Index integration succeeded. No CLI success or credentials are invented.
+- Added an isolated digest-pinned Compose candidate, not an executed network. M-01–M-03 and R1 remain open: real prove/submit/observe and admission/maintenance checks are unfinished. Provider/operation evidence remains **0/6 and 0/14**.
 
 ## Earlier checkpoint — synthetic UI prototype
 
