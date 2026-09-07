@@ -6,6 +6,8 @@
   "scripts": {
     "setup": "sh scripts/setup.sh",
     "contract:cohort": "sh scripts/with-bun.sh scripts/verify-compact-cohort.ts",
+    "contract:compile": "sh scripts/with-bun.sh scripts/compile-contract.ts",
+    "research:developer": "sh scripts/with-bun.sh node_modules/firecrawl-cli/dist/index.js developer",
     "dev": "sh scripts/with-bun.sh --hot scripts/dev.ts",
     "build": "sh scripts/with-bun.sh scripts/build.ts",
     "typecheck": "sh scripts/with-bun.sh node_modules/typescript/bin/tsc --noEmit",
@@ -28,6 +30,7 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "axe-core": "4.13.0",
+    "firecrawl-cli": "1.23.3",
     "typescript": "5.9.3"
   }
 }

@@ -2,7 +2,7 @@
 
 **Private agreements. Clear approvals.**
 
-A privacy-first creative commissioning workspace, currently being built as a **synthetic UI prototype**. The first service is one fixed-price agreement and one delivery of three images. This is not a live marketplace, escrow service or verified Midnight application.
+A privacy-first creative commissioning workspace with a **synthetic UI prototype and an isolated local Compact contract slice**. The first service is one fixed-price agreement and one delivery of three images. This is not a live marketplace, escrow service or verified Midnight application.
 
 ## What works and what does not
 
@@ -14,7 +14,7 @@ Sample images are public static assets. Checking their pinned SHA-256 hashes dem
 
 ## Local development
 
-The selected Bun version is pinned by the project setup; use the scripts rather than upgrading the global runtime. No provider credentials are needed for the UI prototype.
+The selected Bun and Compact versions are pinned by project setup; use the scripts rather than upgrading global runtimes. The verified compiler bootstrap currently requires Linux x86_64, Node/npm, Python 3, curl, tar/xz and SHA-256 tooling. No provider credentials are needed for the UI or compiler/runtime tests.
 
 ```sh
 sh scripts/setup.sh
@@ -24,13 +24,18 @@ bun run dev
 Open `http://localhost:3000` for the public landing or `/demo` for the sample workspace. In Hoplite use the managed Preview; its run command is versioned in `.hoplite/settings.json`.
 
 ```sh
+bun run contract:compile
 bun run typecheck
 bun run lint
 bun run test:unit
 bun run build
 ```
 
-The build is static output, not a Convex deployment or a production Bun server. Real provider integration and local Docker/Compact infrastructure belong to later gates. Do not point this prototype at production credentials.
+`contract:compile` performs full key generation, checks the entire circuit set and writes hashed receipts under ignored `packages/contract/generated/`. Run it before typecheck/tests after checkout or contract edits. The [contract README](packages/contract/README.md) documents typed commitments, independent witnesses, disclosure and the remaining admission/proof/network boundary. The web app still uses its separate simulator; it does not invoke this contract.
+
+The web build is static output, not a Convex deployment or production Bun server. The [local network configuration](docs/local-network-candidate.md) is an explicit, unverified candidate, not a running service. Do not point it or this prototype at production credentials.
+
+Development-only research uses `bun run research:developer 'your question' --limit 3 --json`. See the [source receipt](docs/development-evidence.md) for the actual CLI access limitation, authenticated Firecrawl Developer Index fallback and supported-cohort decision.
 
 ## Explore the prototype
 

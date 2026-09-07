@@ -5,4 +5,4 @@ dist/
 .hoplite/archive/
 .DS_Store
 *.log
-packages/contract/managed/
+packages/contract/generated/

@@ -2,6 +2,8 @@
 
 > **Evidence checkpoint · updated 7 September 2026 · R0.** Read alongside the seven planning documents, not as implemented functionality. No application code, dependency installation, wallet transaction or live service was added by this audit. Provider/operation evidence remains **0/6 and 0/14**.
 
+**Subsequent implementation receipt:** the original contract now has [verified full compiler artifacts and generated-runtime tests](PROTOCOL_VERIFICATION.md). This does not rewrite the historical source-audit evidence below or close real network/provider gates.
+
 ## Contents
 
 1. [Verdict and evidence boundary](#1-verdict-and-evidence-boundary)
@@ -99,7 +101,7 @@ Severity: 🔴 **RED** blocks the affected eligibility, technical or release cla
 
 | Status / Milo task | Problem or drift | Required correction / next evidence |
 | --- | --- | --- |
-| **RED — M-01–M-03: technical gate** | There is still no executed compiling Milo Compact contract. More design documents cannot pass the compulsory gate | First code checkpoint: reproducible compiler output, generated artifacts and meaningful role/terms constraints; then real local execution |
+| **RED — M-01–M-03: real local execution remains open** | The original Milo contract now compiles with full artifacts and meaningful role/terms tests; no transaction proof/submission/observation or admission/maintenance evidence exists | Preserve the [compiler receipt](PROTOCOL_VERIFICATION.md), then prove the real local pipeline; do not close M-01–M-03 or claim submission acceptance from compilation |
 | **RED — M-04/M-09: integration and QA** | Six provider slots and fourteen operation specifications are not fourteen passing operations | Independent actors; wrong-role/terms/digest, replay/races, deadline boundaries and ambiguous-submit recovery with exact stage-of-failure evidence |
 | **RED — schedule and scoring** | Attachments, linked PDF, detailed rubric and live platform disagree | Obtain written organizer confirmation; keep safe development moving, but make no eligibility or score guarantee |
 | **RED — M-05/B-09: identity and recovery** | App authentication does not prove actor authority, wallet compatibility or restoration | One named Privy/wallet/network/prover profile; account/network invalidation and clean-profile restore; keep unsupported consumer paths blocked |
