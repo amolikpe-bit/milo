@@ -8,6 +8,8 @@ A privacy-first creative commissioning workspace with a **synthetic UI prototype
 
 Implementation and verification status is tracked in [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md), with changes in [CHANGELOG.md](CHANGELOG.md). Do not infer completion from a screenshot or package installation. Provider/operation evidence remains **0/6 and 0/14**; R1–R5 are not achieved.
 
+The [native local-network lane](docs/native-network.md) now runs the pinned Midnight node, indexer and prover without Docker. It has real block/indexer/readiness evidence; full protocol admission and pilot readiness remain open.
+
 The prototype uses fictional participants, generated original PNG artwork and an in-memory state machine. Role switching, wallet setup, payment authorization/capture, protocol transitions and recovery are **simulated**, not authenticated or externally observed. Refresh resets the scenario. Never enter real credentials, wallet material, customer data or payment details.
 
 Sample images are public static assets. Checking their pinned SHA-256 hashes demonstrates local byte equality, not blockchain commitments, creative quality or ownership. Exported sample receipts contain no real proof or payment confirmation.

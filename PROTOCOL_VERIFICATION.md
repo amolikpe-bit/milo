@@ -1,8 +1,23 @@
 # Local Compact verification — 7 September 2026
 
-**Bounded compiler/runtime checkpoint, not R1.** The original Milo contract compiles with full artifacts and its generated-runtime tests pass. No transaction proof, wallet balance, deployment, node submission, indexer observation or maintenance-authority test has run. MID provider/operation coverage remains **0/6 and 0/14**. Fourteen compiled circuits are not fourteen completed MID operations.
+**Bounded execution checkpoints, not R1.** The original Milo contract compiles with full artifacts and its generated-runtime tests pass. The [native network lane](docs/native-network.md) verifies real node/indexer block identity, prover availability, finalized disposable funding and observed DUST without Docker. Full contract deployment was rejected by the node's block limits; reservation did not run. Completed MID provider/operation rows remain **0/6 and 0/14**. Fourteen compiled circuits are not fourteen completed MID operations.
 
-## Reproducible evidence
+## Native execution follow-up
+
+- PR #2 was already merged when the user authorized merging it; its final checks passed. Follow-up work uses a new authorized branch, not the merged head.
+- Direct sandbox inspection found Linux x86_64 gVisor, no Docker/Podman/socket. Another runtime-replacement request returned the same active-operation error. This platform fault is not claimed fixed.
+- Pinned official native node 1.0.0 and exact OCI-derived indexer 4.3.3/prover 8.1.0 run unprivileged. The node archive, manifests/layers/executables and indexer configuration are checksum-verified. No global libraries, `/nix` tree or container runtime were installed.
+- Fresh native runs observed block 1 and the identical hash via indexer GraphQL. Indexer readiness alone permits lag; the harness waits for the actual block. Prover `/ready` body `status: "ok"` means queue availability, not successful proving.
+- Service cleanup runs on normal completion and SIGINT/SIGTERM; four real interruption regression tests pass, including late-spawn attempts during shutdown. Private logs and execution data remain ignored. The prover binds all sandbox interfaces, has no published Preview/tunnel, and is restricted here to disposable synthetic experiments.
+- Source inspection corrected the earlier external database-password assumption: standalone uses SQLite and in-memory pub/sub. Docker is now an unexecuted optional fallback under `infra/midnight/compose.yml`.
+- The isolated [transaction harness](packages/integration/README.md) is a separate Node process. Its diagnostic reservation explicitly does not admit an immutable commercial order or close R1.
+- Actual execution caught insufficient DUST despite a positive balance. The fix uses real fee estimates and observed accrual, retrying only pre-submit insufficient-DUST failures; signing/submission are not retried. Artifact/source binding and pre-send identifiers (including internal registration calls) have regression coverage.
+- With sufficient DUST, deployment reached node submission and received RPC **1010: Invalid Transaction: Transaction would exhaust the block limits**. This is a deployment feasibility blocker, not another Docker fault. No contract address, maintenance lock or reservation success is claimed. Preserve the single-contract/immutable-admission requirements while investigating a bounded bootstrap; do not raise node limits or remove MID operations.
+- Current local checks pass: **37 Bun tests / 397 assertions**, **16 Node 24.20.0 tests**, lint, strict typecheck, static build and the bounded canonical-plan checker. The [sanitized execution receipt](docs/receipts/native-local-checkpoint.json) distinguishes separate health/funding runs and the deployment rejection. CI now runs native health and the separate Node suite; remote success must be read separately.
+- Plan re-reading caught the incidental host Node 24.19.0 versus selected 24.20.0 difference. A publisher-checksummed, repository-local 24.20.0 runtime now drives the diagnostic; no global runtime upgrade or contract-cohort change was made.
+- The platform's setup tool still refuses its lifecycle lease even after native execution succeeds. Its QA audit also rejects the existing settings file without exposing validation details; no schema, authentication, seed profile or automatic-QA policy was guessed. Both limitations were reported. Native commands work, but first-party fresh setup/automatic browser QA are not claimed verified.
+
+## Earlier compiler/runtime checkpoint evidence
 
 | Check | Observed result | Boundary |
 | --- | --- | --- |

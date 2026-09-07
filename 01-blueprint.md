@@ -1356,7 +1356,7 @@ The official [midnight-local-dev repository][m11] documents Node 22+, Docker, Co
 
 Use `packageManager: "bun@1.4.2"` in the future application manifest and commit `bun.lock`; do not maintain competing application lockfiles. Upstream repositories keep their supported tooling. A Bun-launched script may still execute a Node-shebang CLI: record actual runner versions and do not force every dependency onto Bun. Scope tests by runtime, and use separate browser, Bun, Convex-default and Node-action TypeScript configurations. `@types/bun` must not make unsupported APIs appear valid inside browser or Convex code. Generate Convex types/schema and Compact artifacts before checking callers; neither generation step substitutes for the other.
 
-The current documentation workspace has no application or configured setup/run command. During implementation, encode the verified environment in versioned setup scripts and `.hoplite/settings.json`; never leave a required manual installation undocumented. A Docker-capable environment is required for the selected local-network path. No installation or preview is claimed by this document.
+Versioned setup/run commands now exist; the [progress manifest](PROGRESS_MANIFEST.md) owns their executed status. Never leave a required installation undocumented. The official Docker workflow still requires a Docker-capable host. The separately verified [native local lane](docs/native-network.md) runs the same pinned candidate services without Docker, with explicit isolation and artifact checks; it does not weaken the proof/submission/admission or R1 gates.
 
 ### 9.3 DevX rules with a practical payoff
 

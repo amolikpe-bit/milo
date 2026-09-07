@@ -4,15 +4,22 @@
   "private": true,
   "packageManager": "bun@1.4.2",
   "scripts": {
+    "setup:native-node": "sh scripts/with-bun.sh scripts/setup-native-node.ts",
+    "setup:native-network": "sh scripts/with-bun.sh scripts/setup-native-node.ts && python3 scripts/setup-native-services.py",
+    "setup:integration-runtime": "sh scripts/with-bun.sh scripts/setup-integration-runtime.ts",
+    "test:native-network": "sh scripts/with-bun.sh scripts/native-node-smoke.ts --with-services",
+    "test:native-node": "sh scripts/with-bun.sh scripts/native-node-smoke.ts",
     "setup": "sh scripts/setup.sh",
     "contract:cohort": "sh scripts/with-bun.sh scripts/verify-compact-cohort.ts",
+    "check:plan": "sh scripts/with-bun.sh scripts/check-plan.ts",
     "contract:compile": "sh scripts/with-bun.sh scripts/compile-contract.ts",
     "research:developer": "sh scripts/with-bun.sh node_modules/firecrawl-cli/dist/index.js developer",
     "dev": "sh scripts/with-bun.sh --hot scripts/dev.ts",
     "build": "sh scripts/with-bun.sh scripts/build.ts",
     "typecheck": "sh scripts/with-bun.sh node_modules/typescript/bin/tsc --noEmit",
     "lint": "sh scripts/with-bun.sh node_modules/@biomejs/biome/bin/biome check .",
-    "test:unit": "sh scripts/with-bun.sh test"
+    "test:unit": "sh scripts/with-bun.sh test apps/web packages/domain packages/contract scripts",
+    "test:integration": "node --test packages/integration/test/*.test.mjs"
   },
   "dependencies": {
     "@midnight-ntwrk/compact-runtime": "0.16.0",
