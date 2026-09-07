@@ -180,7 +180,7 @@ Do not spend the critical path “using more Midnight.” Spend it proving the [
 
 ## 4. Dependency-gated execution manifest
 
-This is the execution manifest, not a calendar sprint or a second backlog. **R0 is specified with open decisions; all implementation milestones are NOT STARTED.** Documentation completion does not equal runtime completion: required MID evidence remains **0/6 provider slots and 0/14 operations**. Owners are accountable roles and can be one person. Preserve M-01–M-14, B-01–B-11, MID-P1–P6 and MID-T01–T14 IDs and acceptance contracts. The canonical readiness definitions in §3.1 remain authoritative; the table below assigns existing work, not a second set of release levels.
+This is the canonical execution order and acceptance contract, not a calendar sprint. [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md) records evidence-backed implementation status. **R0 includes a synthetic UI prototype; every real integration milestone remains open.** Documentation completion does not equal runtime completion: required MID evidence remains **0/6 provider slots and 0/14 operations**. Owners are accountable roles and can be one person. Preserve M-01–M-14, B-01–B-11, MID-P1–P6 and MID-T01–T14 IDs and acceptance contracts. The canonical readiness definitions in §3.1 remain authoritative; the table below assigns existing work, not a second set of release levels.
 
 | Readiness milestone | Existing work and accountable owner | Status | Entry → exit evidence | Stop rule |
 | --- | --- | --- | --- | --- |
@@ -201,7 +201,7 @@ The September 7 matrix recheck reconfirms the blueprint's existing network-speci
 
 #### Ordered build flow: UI, environments and testing
 
-**Current state: documentation only.** The following is execution guidance after implementation authorization, not commands already available or environments already provisioned. UI prototyping starts alongside environment/contract work, not after every backend gate. A clickable synthetic prototype remains R0; only executed protocol evidence earns R1, and real independent-actor browser/recovery evidence earns R2. Keep the fixed `image-pack-v1` scope throughout.
+**Current state: synthetic UI implementation authorized and started.** Local prototype commands now exist; the [progress manifest](PROGRESS_MANIFEST.md) distinguishes their verified results from unprovisioned protocol/provider environments. UI prototyping starts alongside environment/contract work, not after every backend gate. A clickable synthetic prototype remains R0; only executed protocol evidence earns R1, and real independent-actor browser/recovery evidence earns R2. Keep the fixed `image-pack-v1` scope throughout.
 
 | Order / readiness target | Build and accountable role | UI developed at this point | Environment / SDK / API needed | Tests and completion evidence before advancing |
 | --- | --- | --- | --- | --- |

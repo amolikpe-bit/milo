@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "setup": { "enabled": true, "command": "sh scripts/setup.sh" },
+    "run": { "enabled": true, "command": "bun run dev" },
+    "archive": { "enabled": false, "command": "" }
+  },
+  "ports": {
+    "preview": 3000
+  }
+}

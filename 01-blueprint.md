@@ -1,13 +1,13 @@
 # Milo — implementation blueprint
 
-> **Decision document · revised 7 September 2026 · implementation not yet built.**
-> Milo is the chosen product. This document specifies the target, not completed functionality, a security certification, or a tested dependency lockfile.
+> **Decision document · revised 7 September 2026 · synthetic UI prototype only; real integrations unimplemented.**
+> Milo is the chosen product. This document specifies the full target, not completed integrations or a security certification. The prototype lockfile and local checks cover only the currently implemented subset.
 
 **Milo: private agreements, clear approvals.** A private commissioning workspace: agree the work, identify the delivery, and verify the approval. Seven service contexts reuse one merchant-bound, fixed-price order protocol. An external payment provider handles money. Midnight enforces the order rules without publishing the underlying commercial terms; it does not judge creative quality or verify payment.
 
 Read this for architecture, dependencies, privacy and implementation decisions. Read the [roadmap](02-roadmap.md) for sequencing/readiness, the [building guide](03-building-guide.md) for engineering judgment and commercialization, the [UI design specification](04-ui-design.md) for routes, page composition, wireframes and source provenance, and the [UX service design](05-ux-design.md) for cross-page consent, participant handoffs and recovery. These are task-specific references, not compulsory full reads before every edit. Protocol, privacy and package decisions remain canonical here; visual proposals cannot override them.
 
-**Redesigned target:** **Bun `1.4.2` + React + Convex + Privy + Midnight**, with Stripe for external order payments and **Browser Use Cloud V4's hosted agent SDK** for cloud GUI workflows. No PostgreSQL, Drizzle, Hono, Better Auth, Playwright, Puppeteer or customer-managed CDP client is selected for the product/QA architecture. Convex owns the backend; Bun owns local build/dev/test orchestration. The [package budget](#65-the-package-budget-eight-product-plus-two-qa) is **eight product packages plus two QA packages**, excluding and separately reporting mandatory Midnight and development-tool dependencies—not a claim that the entire system has ten packages. Experimental integrations are intentional and gated by evidence, not rejected merely for being experimental. This remains a design, not an implemented or tested application.
+**Redesigned target:** **Bun `1.4.2` + React + Convex + Privy + Midnight**, with Stripe for external order payments and **Browser Use Cloud V4's hosted agent SDK** for cloud GUI workflows. No PostgreSQL, Drizzle, Hono, Better Auth, Playwright, Puppeteer or customer-managed CDP client is selected for the product/QA architecture. Convex owns the backend; Bun owns local build/dev/test orchestration. The [package budget](#65-the-package-budget-eight-product-plus-two-qa) is **eight product packages plus two QA packages**, excluding and separately reporting mandatory Midnight and development-tool dependencies—not a claim that the entire system has ten packages. Experimental integrations are intentional and gated by evidence, not rejected merely for being experimental. This full provider architecture remains a design; only the isolated synthetic UI and its local tooling have implementation evidence.
 
 The [backend design handoff](06-backend-design.md) expands module responsibilities, validation, reconciliation, protected bytes, operations and rollback using the canonical records below. It does not add another data layer, credential store, protocol matrix or package list.
 
@@ -15,13 +15,13 @@ The [post-MVP video specification](07-video-design.md) owns optional launch-film
 
 **Revised architecture:** keep three separate data responsibilities: actor-local Midnight private state, public Midnight order state, and authorized Convex application records/files. Add a **gated Lumera Cascade public-evidence archive**, not a replacement backend or a default destination for customer data. Cascade supplies durable off-chain bytes; it does not supply Convex's transactional application database, reactive subscriptions, membership checks, or payment jobs. The archive adds its own counted SDK/signing dependencies and operational cost. [§2.4](#24-how-private-and-public-state-work-together) defines the state boundary; [§5.9](#59-lumera-cascade-public-evidence-archive) defines the integration and its limits.
 
-The September 6 review confirmed the Lumera partnership and identified unresolved organizer-rubric and network-version discrepancies. Source-confirmed capabilities, selected engineering decisions, and untested product hypotheses remain distinct. The repository currently contains plans, not a submission-ready application; see the [roadmap compliance table](02-roadmap.md#54-buildathon-fit-and-compliance-status).
+The September 6 review confirmed the Lumera partnership and identified unresolved organizer-rubric and network-version discrepancies. Source-confirmed capabilities, selected engineering decisions, and untested product hypotheses remain distinct. The repository contains plans and a synthetic UI prototype, not a submission-ready application; see the [roadmap compliance table](02-roadmap.md#54-buildathon-fit-and-compliance-status).
 
 **Improvement priority:** make the existing order easier to understand and harder to misuse. Start with [purposeful Midnight patterns](#69-purposeful-midnight-patterns), [the wallet/session contract](#342-wallet-integration-and-identity-lifecycle), and [the task-first buyer journey](#82-buyer-experience). Prove safe sponsorship before spending time on an archive or decorative 3D. “Premium” means a distinctive, fast, understandable experience—not more dependencies, concealed wallet requirements, or an award claim.
 
 ## Contents
 
-The [Midnight core audit](08-midnight-core-audit.md) records the September 7 source-backed add/reuse/replace decisions, corrected package exports, bilateral trust refinements, hackathon red/yellow risks and next implementation evidence. It preserves this blueprint's protocol and package authority; no optional integration is activated by that report. The roadmap owns the execution manifest; reading sources or updating these specifications does not close a runtime gate.
+The [Midnight core audit](08-midnight-core-audit.md) records the September 7 source-backed add/reuse/replace decisions, corrected package exports, bilateral trust refinements, hackathon red/yellow risks and next implementation evidence. It preserves this blueprint's protocol and package authority; no optional integration is activated by that report. The roadmap owns readiness and acceptance contracts; [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md) tracks implementation evidence and pending/deferred work. Reading sources or updating specifications does not close a runtime gate.
 
 1. [Product contract](#1-product-contract)
 2. [What Midnight contributes](#2-what-midnight-contributes)
@@ -1301,7 +1301,7 @@ These are proposed B-11 acceptance criteria, not observed results or substitutes
 
 ### 9.1 Proposed structure
 
-This is a target layout; these implementation paths do not yet exist.
+This is the target layout. Only the frontend prototype, pure synthetic domain model, fixture artwork and local tooling currently exist; see [implementation progress](PROGRESS_MANIFEST.md). All contract/provider/backend paths remain targets.
 
 ```text
 apps/web/                  Bun HTML entries, React routes, auth bridge, CSS tokens

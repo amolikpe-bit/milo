@@ -1,6 +1,6 @@
 # Milo — UI design and experience specification
 
-> **Design specification · 7 September 2026 · not an implemented interface.**
+> **Design specification · 7 September 2026 · target requirements; a synthetic UI prototype implements a subset.**
 > The wireframes below are original, low-fidelity proposals, not screenshots, tested flows, conversion evidence or an award claim. All sample orders, businesses, prices and artwork used during implementation must be synthetic or explicitly licensed.
 
 **Private agreements. Clear approvals.** Make private creative commissions feel like working with a confident studio: clear agreement, beautiful work, deliberate approval and understandable payment status. The three-image product pack is the first showcase, not the product's permanent category. The product is not an AI chat client, token dashboard or open marketplace.
@@ -67,7 +67,7 @@ Use real work as the visual centerpiece. Sample pack imagery should share lighti
 
 ## 3. Navigation and page inventory
 
-Routes are proposals, not implemented endpoints. `:quoteId`, `:orderId` and `:caseId` are identifiers, **not access credentials**. Server-side membership and independent circuit authorization remain mandatory. A deep link resumes the named record after sign-in without embedding OTPs, JWTs, capabilities, backup passwords or signing material in the URL.
+These routes specify the target inventory. The synthetic prototype implements sample-only views; [progress](PROGRESS_MANIFEST.md) separates those from real authenticated endpoints. `:quoteId`, `:orderId` and `:caseId` are identifiers, **not access credentials**. Server-side membership and independent circuit authorization remain mandatory. A deep link resumes the named record after sign-in without embedding OTPs, JWTs, capabilities, backup passwords or signing material in the URL.
 
 | Surface / proposed route | Audience and main task | Primary action / key boundary |
 | --- | --- | --- |
