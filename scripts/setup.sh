@@ -14,3 +14,5 @@ if [ -f bun.lock ]; then
 else
   "$BUN_BIN" install
 fi
+
+sh scripts/setup-compact.sh

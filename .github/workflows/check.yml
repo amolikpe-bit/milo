@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: 24.20.0
       - run: npm run setup
+      - run: npm run contract:compile
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test:unit
