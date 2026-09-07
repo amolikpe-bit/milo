@@ -1,6 +1,6 @@
 # Milo — UI design and experience specification
 
-> **Design specification · 6 September 2026 · not an implemented interface.**
+> **Design specification · 7 September 2026 · not an implemented interface.**
 > The wireframes below are original, low-fidelity proposals, not screenshots, tested flows, conversion evidence or an award claim. All sample orders, businesses, prices and artwork used during implementation must be synthetic or explicitly licensed.
 
 **Private agreements. Clear approvals.** Make private creative commissions feel like working with a confident studio: clear agreement, beautiful work, deliberate approval and understandable payment status. The three-image product pack is the first showcase, not the product's permanent category. The product is not an AI chat client, token dashboard or open marketplace.
@@ -218,6 +218,8 @@ Use the selected Privy email OTP flow. Label it “Continue to your order,” re
 
 After OTP, wait for Convex authentication and membership. An authenticated but uninvited user sees a useful access explanation, not a brief flash of someone else's content. Expired/revoked invitations do not create partial membership. Returning sessions reuse verified access; identity changes clear protected views and unlocked capability state.
 
+The invitation and frozen quote establish intended app access and terms; neither is a wallet login or an order capability. Keep the quote readable to an authorized member without a wallet, and reveal action prerequisites only when that participant chooses a consequential action. The one Privy sign-in remains the only Milo login.
+
 ### 5.2 Progressive prerequisites
 
 The [single-account coordinator](01-blueprint.md#342-wallet-integration-and-identity-lifecycle) derives the next required action. It does not own new credentials or replace SDK storage. Its technical readiness fields map to human tasks:
@@ -230,6 +232,8 @@ The [single-account coordinator](01-blueprint.md#342-wallet-integration-and-iden
 | `feePath` | Execution costs covered for this action, or explicit developer-funded requirement | Free forever, sponsor capacity reservation, hidden paid fallback |
 
 Show the next blocker, not five disconnected onboarding wizards. Wallet selection and permission occur only after the user chooses to prepare an order. Reading remains possible without a wallet. A supported connection can be reused, but network/account context and consequential consent must be freshly checked.
+
+Name recovery boundaries precisely: wallet recovery restores access to the selected wallet; actor-capability recovery restores that actor's encrypted, order-scoped Midnight state; Convex application restore concerns authorized application records/files. None substitutes for another, and support or a second Milo login cannot recreate a lost capability.
 
 Do not promise walletless onboarding: the reviewed Privy APIs do not establish a native Midnight signer. A future embedded-wallet choice must pass compatibility, custody, proving and recovery gates before the UI removes the software requirement.
 
@@ -299,7 +303,7 @@ Desktop: header with order/merchant; main work area; a compact summary/action co
 
 ### 7.2 Phase-to-task contract
 
-The [protocol state machine](01-blueprint.md#42-state-machine) is authoritative. Labels below are presentation, not new ledger states. Availability also depends on membership, role, current revision, deadlines, integrity and fresh observation; the UI cannot grant an action merely because a row lists it.
+The [protocol state machine](01-blueprint.md#42-state-machine) is authoritative. Labels below are presentation, not new ledger states. Availability also depends on membership, role, current revision, deadlines, integrity and fresh observation; the UI cannot grant an action merely because a row lists it. Every order form—invited quote, preparation, delivery, review, dispute and receipt—distinguishes chain and payment facts with their observation freshness. Before a contract or payment attempt exists, say so rather than invent a phase; after submission, represent an unknown outcome explicitly.
 
 | Observed state | Buyer framing | Merchant/operator framing and exits |
 | --- | --- | --- |
@@ -314,6 +318,8 @@ The [protocol state machine](01-blueprint.md#42-state-machine) is authoritative.
 
 When a deadline passes, show “Deadline reached; awaiting the applicable action” until an observed transaction changes phase. Do not locally flip the phase or automatically approve a delivery. A public timeout still requires a real funded caller/prover; in-app notices cannot reach a closed browser.
 
+For a submitted wallet/provider request with no fresh observation, retain its operation identifier and show “Outcome being checked”; disable an unsafe duplicate rather than infer failure from a timeout. On account, wallet, network, order or tab-context change, invalidate the prior action generation and ignore late callbacks. A merchant or operator view must never complete a buyer action merely because both are open in the same browser.
+
 ### 7.3 Payment authorization approaching expiry
 
 The payment panel retains the independently observed hold status, freshness and provider-reported `capture_before` with timezone. Show “Payment hold expires [time]” while usable and “Payment hold expired; payment unresolved” after provider confirmation. If the deadline has passed but status cannot be refreshed, show “Hold status needs checking,” not a locally inferred release or capture. The order phase remains separate.
@@ -324,7 +330,7 @@ Follow the [canonical expiry policy](01-blueprint.md#51-two-independent-state-ma
 
 ### 8.1 Reviewing files
 
-Display all three images with stable dimensions and descriptive alt text. Full-size viewing uses one accessible dialog with next/previous buttons, Escape, focus return, keyboard controls and a download alternative; no drag/pinch-only navigation. Respect the blueprint's accepted formats/size limits and validate the exact bytes against the confirmed immutable manifest.
+Display all three images with stable dimensions and descriptive alt text. Full-size viewing uses one accessible dialog with next/previous buttons, Escape, focus return, keyboard controls and a download alternative; no drag/pinch-only navigation. Respect the blueprint's accepted formats/size limits and locally validate the exact received bytes against the confirmed immutable manifest before ordinary approval.
 
 Distinguish “Checking file,” “Matches submitted manifest,” “Cannot verify” and “File unavailable.” Digest matching does not certify quality, malware absence, copyright or human review. Do not mark the buyer's subjective inspection complete merely because thumbnails loaded. No auto-approval on download, scroll depth or image-view count.
 

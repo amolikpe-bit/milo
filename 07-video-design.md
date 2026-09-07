@@ -1,6 +1,6 @@
 # Milo — post-MVP launch-video design
 
-> **R0 production specification · 6 September 2026.** This is an actionable
+> **R0 production specification · 7 September 2026.** This is an actionable
 > plan for a future launch video, not a claim that Milo or its integrations are
 > implemented, verified, deployed, usable by customers, or ready to market.
 
@@ -82,7 +82,7 @@ assembly and public release must wait** for the approved evidence packet below.
 Use one small `production-manifest.yaml` rather than two drifting CSV ledgers.
 It has three lists: `claims`, `assets`, and `evidence`.
 
-Production starts after the [R3 controlled-pilot-candidate evidence](02-roadmap.md#31-name-the-level-actually-achieved), not after a clickable mockup. This still means test-mode/developer-preview claims unless R4 separately permits live use. A submission's raw technical walkthrough has its own rubric requirements; this polished optional film does not replace it or delay the protocol critical path.
+Production starts post-MVP, after the [R3 controlled-pilot-candidate evidence](02-roadmap.md#31-name-the-level-actually-achieved), not after a clickable mockup. This still means test-mode/developer-preview claims unless R4 separately permits live use. A submission's raw technical walkthrough has its own rubric requirements; this polished optional film does not replace it or delay the protocol critical path. No actual captures exist under this specification.
 
 ### 3.1 Evidence required before final script and capture
 
@@ -468,11 +468,11 @@ jurisdiction, approved narrator/music policy, final availability URL, and the
 actual accepted CLI help output in the isolated production environment. Resolve
 them before final scripting/capture, not through visual polish.
 
-No package/skill installation, renderer execution, hosted generation or video production has occurred. This specification is committed planning work, not runtime evidence.
+No package/skill installation, renderer execution, hosted generation, product capture or video production has occurred. This specification is committed planning work, not runtime evidence.
 
 ## Sources
 
-All sources were retrieved or queried on **6 September 2026**.
+All sources were retrieved or queried on **6 September 2026**; this document's evidence-boundary clarification was revised on **7 September 2026**.
 
 [hf-www]: https://www.hyperframes.dev/
 [hf-quickstart]: https://hyperframes.heygen.com/quickstart
