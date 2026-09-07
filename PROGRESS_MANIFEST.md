@@ -49,7 +49,7 @@ Never erase a deferral, replace an unknown result with success, or close a gate 
 | Date / artifact | Kind | Result and limitation |
 | --- | --- | --- |
 | 2026-09-07 planning changes | Source/documentation | Public documentation and package-source checks, not SDK execution; independent review addressed |
-| 2026-09-07 UI implementation | Local implementation | Local checks and asserted browser flows passed; details, artifact limits and remaining tests in [VERIFICATION.md](VERIFICATION.md) |
+| 2026-09-07 UI implementation | Local implementation | [Implementation checkpoint `6acd3a4`](https://github.com/amolikpe-bit/milo/commit/6acd3a4531a851f8fea836f31149de6621a4425e): local checks and asserted browser flows passed; details, artifact limits and remaining tests in [VERIFICATION.md](VERIFICATION.md) |
 
 **Ongoing work:** none left running at this checkpoint. The next implementation slice is the real local contract/environment milestone; it is PENDING, not started or complete. **Blocked readiness:** R3 cannot be claimed without configured isolated provider environments, a supported wallet/prover/cohort decision, real protocol/payment/recovery evidence and the external approvals in stages 2–7. The existing organizer/network discrepancies are not resolved by this UI work.
 

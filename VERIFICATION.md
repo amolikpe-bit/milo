@@ -2,6 +2,8 @@
 
 **Scope: R0 UI prototype only.** This is not R1 contract evidence, a passed M-01–M-11 integration cohort, a security audit, or an MVP release. MID provider/operation counters remain **0/6 and 0/14**.
 
+Implementation source: `6acd3a4531a851f8fea836f31149de6621a4425e`. Subsequent documentation-only checkpoint commits do not change the tested implementation.
+
 ## Local checks
 
 | Check | Observed result | Boundary |

@@ -4,6 +4,8 @@ Changes are grouped by verified scope. “Added” does not mean a live service 
 
 ## Unreleased — synthetic UI prototype
 
+Implementation checkpoint: `6acd3a4531a851f8fea836f31149de6621a4425e`. This is a reviewable source commit, not a deployed or MVP release.
+
 ### Added and locally verified
 
 - Native Bun/React prototype with separate public and interactive entries; no second API service or frontend bundler.
