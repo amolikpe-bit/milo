@@ -4,6 +4,8 @@ Changes are grouped by verified scope. “Added” does not mean a live service 
 
 ## Unreleased — native local execution, protocol work ongoing
 
+- Added a repository agent handoff with checkpoint evidence, the exact deployment blocker, ordered continuation steps, reproducible commands, deferred-work triggers and cross-check/publication rules.
+
 - Reconciled stale manifest text with the published native/funding checkpoint: deployment block limits are the active protocol blocker; browser-wallet integration remains distinct from successful CLI funding.
 
 - Verified the existing PR #2 was already merged with passing checks; continued on a fresh authorized branch.

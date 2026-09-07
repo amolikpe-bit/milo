@@ -6,6 +6,8 @@ A privacy-first creative commissioning workspace with a **synthetic UI prototype
 
 ## What works and what does not
 
+For continuation by another agent, start with [the agent handoff](docs/AGENT_HANDOFF.md): verified work, blockers, commands, ordered gates and safety checks.
+
 Implementation and verification status is tracked in [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md), with changes in [CHANGELOG.md](CHANGELOG.md). Do not infer completion from a screenshot or package installation. Provider/operation evidence remains **0/6 and 0/14**; R1–R5 are not achieved.
 
 The [native local-network lane](docs/native-network.md) now runs the pinned Midnight node, indexer and prover without Docker. It has real block/indexer/readiness evidence; full protocol admission and pilot readiness remain open.
