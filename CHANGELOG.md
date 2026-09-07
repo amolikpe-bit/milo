@@ -2,7 +2,15 @@
 
 Changes are grouped by verified scope. “Added” does not mean a live service or a passed integration gate. Execution status lives in [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md).
 
-## Unreleased — synthetic UI prototype
+## Unreleased — local protocol work started
+
+- M-01–M-03 moved from PENDING to ONGOING without claiming R1.
+- Installed Compact devtools 0.5.1 and compiler 0.31.1 from exact official release archives with checked publisher SHA-256 digests; setup is repository-owned and Linux x86_64 scoped.
+- Selected Compact runtime 0.16.0 and on-chain runtime 3.0.0 together, avoiding a silently newer duplicate transitive runtime. Added a real WASM identity/version canary; no blanket overrides.
+- Rechecked current official support matrix through Firecrawl. Newer compiler releases are not adopted merely because they exist. The authenticated Firecrawl integration is available; sandbox CLI credentials are not.
+- Contract compilation, circuit/admission tests and real prove/submit/observe are still unfinished at this toolchain checkpoint. Provider/operation evidence remains **0/6 and 0/14**.
+
+## Earlier checkpoint — synthetic UI prototype
 
 Implementation checkpoint: `6acd3a4531a851f8fea836f31149de6621a4425e`. This is a reviewable source commit, not a deployed or MVP release.
 
