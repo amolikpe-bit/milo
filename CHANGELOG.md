@@ -4,6 +4,8 @@ Changes are grouped by verified scope. “Added” does not mean a live service 
 
 ## Unreleased — native local execution, protocol work ongoing
 
+- Reconciled stale manifest text with the published native/funding checkpoint: deployment block limits are the active protocol blocker; browser-wallet integration remains distinct from successful CLI funding.
+
 - Verified the existing PR #2 was already merged with passing checks; continued on a fresh authorized branch.
 - Unblocked local execution without Docker: pinned native node produced a block, exact native indexer observed the same block hash, and the pinned prover reported queue availability.
 - Added opt-in, checksum-verified setup, isolated lifecycle controls, interruption regressions and scoped private diagnostics. The remaining Docker provisioning fault is not claimed fixed.
