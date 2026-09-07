@@ -1,6 +1,6 @@
 # Milo — backend design and operations handoff
 
-> **Implementation handoff · 6 September 2026 · R0.** This is a proposed Convex-oriented execution design for the selected MVP. It records responsibilities, boundaries, and proof gates; it does not claim code, infrastructure, payment capability, or any of the six providers / fourteen protocol operations has been implemented. Current evidence remains **0/6 and 0/14**.
+> **Implementation handoff · 7 September 2026 · R0.** This is a proposed Convex-oriented execution design for the selected MVP. It records responsibilities, boundaries, and proof gates; it does not claim code, infrastructure, payment capability, or any of the six providers / fourteen protocol operations has been implemented. Current evidence remains **0/6 and 0/14**.
 
 ## Contents
 
@@ -144,6 +144,8 @@ Privy–Convex is experimental until B-03 records real ES256/JWKS/issuer/audienc
 
 External systems do not participate in Convex transactions. Use durable state around effects, then independently observe outcomes. Never call this “exactly once” across Stripe, Midnight, or an indexer.
 
+Use the existing operation and observation records as one evidence envelope, not another database: requested effect/operation identity; expected network, canonical address, artifact fingerprint and revision; stable ledger identifiers; actual execution result and observed revision; endpoint, observation time and block/position where supported; reconciliation status. Unsupported fields remain explicitly unavailable rather than invented. A matching transaction identifier without the expected successful transition cannot authorize capture. Private provisional state and witnesses stay outside this envelope.
+
 ```mermaid
 sequenceDiagram
   participant C as Convex mutation
@@ -175,6 +177,8 @@ Follow [Blueprint §5.1](01-blueprint.md#51-two-independent-state-machines), not
 
 Before deployment/admission/reservation, require the canonical latest-approval/resolution deadline plus the positive configured capture/reconciliation margin to be strictly earlier than actual `capture_before`; missing expiry/margin or insufficient time blocks progress and triggers safe hold reconciliation. Recheck at acceptance/capture. This is Milo application policy: Compact cannot see Stripe, and a capability holder may bypass the app's hold check with a direct valid circuit call. Do not add a payment oracle implicitly.
 
+The timing contract is: verified wallet/recovery readiness → manual authorization → retrieval of actual charge expiry → admission-window check → reservation/merchant acceptance → independently observed approval → fresh provider retrieval → capture/reconciliation. Authorization expiry and immutable contract deadlines are different clocks. Include confirmation/observation/retry delay in the measured margin; a UI countdown is not its evidence. Stripe's `automatic_delayed` may capture before expiry without approval and must not replace this sequence. B-06 must reject that configuration and preserve `APPROVED` plus expired/failed payment as an exception, not counterfeit cancellation or success ([Stripe manual capture](https://docs.stripe.com/payments/place-a-hold-on-a-payment-method)).
+
 Cancellation, every expiry path, abandoned Checkout, timeout-after-effect, replay/out-of-order events and capture-versus-void races are B-06 cases. No same-order reauthorization exists in v1. Expired/failed attempts require the actual cancellation/dispute/finance-support path; approved/unpaid remains a terminal-order exception. A new quote is a new agreement only after safely resolving the old outcome, not another attempt attached to it.
 
 Late provider events are retained/deduplicated and cause retrieval of current provider state, never a blind last-event-wins update or reopened order. Refunds are externally authorized finance incidents: no automatic Milo refund endpoint. Record existing provider refund IDs, actual amount/status and decision audit; test pending/failed/partial/duplicate results and preserve them separately from capture history and ledger phase.
@@ -186,6 +190,8 @@ The browser persists its own pending recovery context before user submission. Co
 A bounded internal action polls/cursors the verified public observation schema and writes provenance-bearing projections. It handles unavailable, stale, and contradictory data by showing uncertainty and blocking capture/unsafe follow-on work. It does not run a permanent websocket, generate a user proof, or retry from a client-supplied status.
 
 The canonical matrix's expiry operations are permissionless but still require a capable caller, fee path, network, and real transaction. A cron may identify an approaching deadline and notify/reconcile; time alone does not transition the contract. The canonical matrix owns all phase predicates and rejection evidence; §7 maps agent participation to those IDs without defining another state machine.
+
+The bounded observer remains selected. The [official EffectStream reader](https://docs.midnight.network/guides/index-state-with-effectstream) is a possible future derived-state service, not a replacement consensus source or a function to embed in Convex actions. Admit it only after measuring a real history/replay gap, proving decoder compatibility and durable restart behavior, and approving its additional Bun/database/service budget. Never reshape confidential/public protocol fields solely to satisfy its positional decoder or import its decoded-state logging into Milo. No observer or sponsor is activated by this handoff.
 
 ## 6. File lifecycle and application restoration
 
@@ -225,6 +231,8 @@ Deletion/retention requires a policy before real-user use: owner, scope, trigger
 - It cannot recreate a lost capability, salt/opening, wallet seed, buyer limit, or provider-specific private-state scope.
 - A clean-profile drill must prove predeployment staging and account/network/order scoping without secret or cross-order leakage (B-09).
 - If recovery is unavailable or conflicted, provide a truthful read-only/lost-capability route; never offer email reset as substitute.
+
+Wallet restoration recovers only what the selected wallet actually backs up. It does not establish restoration of Milo's order capabilities/openings or Convex files. Test these three recovery responsibilities independently and together. Keep predeployment nonce-scoped state until its admitted address binding is confirmed; retain pending operation identifiers across interruption; apply confirmed private state only once after successful execution and the expected transition. A stale backup must never overwrite newer active state. Terminal-order secret/file retention follows an explicit policy, not automatic deletion when payment changes.
 
 The recovery owner must close the predeployment capability-staging decision with a tested provider-compatible path. Blocking behavior: no consequential onboarding/payment-hold claim and no “recoverable” label until evidence exists.
 

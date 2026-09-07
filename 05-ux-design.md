@@ -1,6 +1,6 @@
 # Milo — UX journeys, consent and service design
 
-> **R0 service specification · 6 September 2026 · not tested behavior.**
+> **R0 service specification · 7 September 2026 · not tested behavior.**
 > This document defines what people need to understand and how work passes between them. It does not certify usability, legal compliance, accessibility, market demand or live-payment readiness.
 
 ## Contents
@@ -71,6 +71,8 @@ An invitation identifies intended access but is not a contract secret. Use a saf
 
 Do not automatically create another identity because a person mistyped an email. Resend and retry controls follow the provider's actual rate limits/timing. Avoid promising universal cross-device OTP or invitation behavior until tested. Once authorized, land directly on the quote/order and restore reading context; never force the marketing tour on an invited buyer.
 
+The invitation leads to one frozen quote: merchant, scope, three-image output, rights, amount/currency, recipients, deadlines and resolution policy. A changed draft requires fresh consent; a newer template or successful OTP never alters an admitted order. Privy remains the only Milo sign-in—wallet permission and actor capability are contextual action prerequisites, not another account.
+
 ## 4. Preparation and deliberate commitment
 
 ### 4.1 Service handoff
@@ -109,7 +111,25 @@ The next blocker derives from the existing coordinator's readiness, not an indep
 
 Before redirecting to hosted Checkout, explain the temporary provider visit and how to return. On return, inspect the bound Session/PaymentIntent through the backend and show actual status. “Success” in a URL is not success in the UI. A closed tab or cancel redirect may still leave a hold; reconcile before retry. Recheck wallet, network and recovery readiness and request a new deliberate reservation action rather than auto-signing after redirect.
 
+Present the canonical order phase and independent payment observation side by side; no local screen state combines them into “complete.” If an outcome is unknown, retain the operation identifier, explain that observation is pending and prevent a duplicate consequential request until reconciliation yields a safe next action.
+
 ## 5. Work, review and resolution
+
+### 5.0 Canonical-phase service coverage
+
+This is coverage of the authoritative [order protocol](01-blueprint.md#42-state-machine), not a second lifecycle. In every phase, display actor, deadline, observation freshness and the separate payment result/unknown state.
+
+| Observed phase | Service handoff and safe form/task |
+| --- | --- |
+| `DEPLOYED` | Buyer sees that admission/reservation is unfinished; no merchant work or funded-order claim. |
+| `RESERVED` | Merchant verifies the usable hold and accepts only when permitted. |
+| `ACCEPTED` | Merchant prepares the bounded three-image delivery; buyer can inspect status and the agreed dispute route. |
+| `SUBMITTED` | Buyer locally verifies immutable files and manifest digest, then approves or disputes; no replacement delivery. |
+| `DISPUTED` | Precommitted operator reviews allowed evidence and can make only the disclosed full-resolution action. |
+| `APPROVED` | Approval is observed while capture remains independently pending, captured, failed or unknown. |
+| `CANCELLED` | Terminal cancellation is observed while void/refund/provider incidents remain independently visible. |
+
+Timeout, stale indexer data and callbacks from another actor, account or tab are observation conditions, not transitions. Preserve the request identifier, discard stale callback effects after identity/wallet/network/order-context change, and re-observe before offering the next action.
 
 ### 5.1 Merchant acceptance and delivery
 
@@ -153,6 +173,8 @@ evidence, not a new source of contract or payment truth.
 Use the [candidate routing receipt](01-blueprint.md#611-review-model-selection-and-routing), not a second model catalogue here. Derive displayed provider/model/trust labels from the admitted job policy; a missing qualified route returns the participant to human review, never to an undisclosed recipient.
 
 ## 6. Interruption, recovery and support
+
+Recovery language remains three-part: wallet recovery restores the selected wallet; actor-capability recovery restores that actor's encrypted order-scoped Midnight private state; Convex application restore concerns authorized app records/files. They have different mechanisms and failure modes; neither a Privy session nor support can turn one into another. An authorized participant who lost only the action capability may have a read-only/status path, not invented cancellation or role-transfer authority.
 
 | Interruption | Preserved/cleared state | Return and responsibility |
 | --- | --- | --- |
@@ -218,6 +240,8 @@ Target UC-01 first and UC-13 second for the [shared-flow evidence](02-roadmap.md
 ## 10. Unresolved service decisions and maintenance
 
 Before the relevant rollout, the product/operator owners must settle invitation delivery/expiry rules, operator availability and escalation, supported locale/device/proving profile, reminder method, policy/retention wording and the exact authorization-expiry commercial remedy. Backend/integration owners must prove the recovery, file and authority mechanisms. These are not silently solved by a page inventory. Record decisions in the existing blueprint open-gate and roadmap evidence registers, with owner, deadline, required proof and safe blocked behavior.
+
+Sponsorship is not a current service promise or recovery shortcut. It is an optional future experiment only after the funded baseline and B-09 wallet/capability lifecycle evidence; B-10 then requires explicit intent, expiry, capacity and ambiguity evidence. Until then, show the actual fee-path requirement or block the action—never silently substitute user payment.
 
 Keep marketing invitations conditional on actual readiness. R3 test evidence is not R4 live approval. A consumer no-install/no-token claim needs its separate proven path; a developer-assisted wallet flow must be described as such. Fixed scope is a deliberate MVP choice, not an assertion that alternatives are technically impossible.
 

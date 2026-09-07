@@ -1,13 +1,13 @@
 # Milo — implementation blueprint
 
-> **Decision document · revised 6 September 2026 · implementation not yet built.**
-> Milo is the chosen product. This document specifies the target, not completed functionality, a security certification, or a tested dependency lockfile.
+> **Decision document · revised 7 September 2026 · synthetic UI prototype only; real integrations unimplemented.**
+> Milo is the chosen product. This document specifies the full target, not completed integrations or a security certification. The prototype lockfile and local checks cover only the currently implemented subset.
 
 **Milo: private agreements, clear approvals.** A private commissioning workspace: agree the work, identify the delivery, and verify the approval. Seven service contexts reuse one merchant-bound, fixed-price order protocol. An external payment provider handles money. Midnight enforces the order rules without publishing the underlying commercial terms; it does not judge creative quality or verify payment.
 
 Read this for architecture, dependencies, privacy and implementation decisions. Read the [roadmap](02-roadmap.md) for sequencing/readiness, the [building guide](03-building-guide.md) for engineering judgment and commercialization, the [UI design specification](04-ui-design.md) for routes, page composition, wireframes and source provenance, and the [UX service design](05-ux-design.md) for cross-page consent, participant handoffs and recovery. These are task-specific references, not compulsory full reads before every edit. Protocol, privacy and package decisions remain canonical here; visual proposals cannot override them.
 
-**Redesigned target:** **Bun `1.4.2` + React + Convex + Privy + Midnight**, with Stripe for external order payments and **Browser Use Cloud V4's hosted agent SDK** for cloud GUI workflows. No PostgreSQL, Drizzle, Hono, Better Auth, Playwright, Puppeteer or customer-managed CDP client is selected for the product/QA architecture. Convex owns the backend; Bun owns local build/dev/test orchestration. The [package budget](#65-the-package-budget-eight-product-plus-two-qa) is **eight product packages plus two QA packages**, excluding and separately reporting mandatory Midnight and development-tool dependencies—not a claim that the entire system has ten packages. Experimental integrations are intentional and gated by evidence, not rejected merely for being experimental. This remains a design, not an implemented or tested application.
+**Redesigned target:** **Bun `1.4.2` + React + Convex + Privy + Midnight**, with Stripe for external order payments and **Browser Use Cloud V4's hosted agent SDK** for cloud GUI workflows. No PostgreSQL, Drizzle, Hono, Better Auth, Playwright, Puppeteer or customer-managed CDP client is selected for the product/QA architecture. Convex owns the backend; Bun owns local build/dev/test orchestration. The [package budget](#65-the-package-budget-eight-product-plus-two-qa) is **eight product packages plus two QA packages**, excluding and separately reporting mandatory Midnight and development-tool dependencies—not a claim that the entire system has ten packages. Experimental integrations are intentional and gated by evidence, not rejected merely for being experimental. This full provider architecture remains a design; only the isolated synthetic UI and its local tooling have implementation evidence.
 
 The [backend design handoff](06-backend-design.md) expands module responsibilities, validation, reconciliation, protected bytes, operations and rollback using the canonical records below. It does not add another data layer, credential store, protocol matrix or package list.
 
@@ -15,13 +15,13 @@ The [post-MVP video specification](07-video-design.md) owns optional launch-film
 
 **Revised architecture:** keep three separate data responsibilities: actor-local Midnight private state, public Midnight order state, and authorized Convex application records/files. Add a **gated Lumera Cascade public-evidence archive**, not a replacement backend or a default destination for customer data. Cascade supplies durable off-chain bytes; it does not supply Convex's transactional application database, reactive subscriptions, membership checks, or payment jobs. The archive adds its own counted SDK/signing dependencies and operational cost. [§2.4](#24-how-private-and-public-state-work-together) defines the state boundary; [§5.9](#59-lumera-cascade-public-evidence-archive) defines the integration and its limits.
 
-The September 6 review confirmed the Lumera partnership and identified unresolved organizer-rubric and network-version discrepancies. Source-confirmed capabilities, selected engineering decisions, and untested product hypotheses remain distinct. The repository currently contains plans, not a submission-ready application; see the [roadmap compliance table](02-roadmap.md#54-buildathon-fit-and-compliance-status).
+The September 6 review confirmed the Lumera partnership and identified unresolved organizer-rubric and network-version discrepancies. Source-confirmed capabilities, selected engineering decisions, and untested product hypotheses remain distinct. The repository contains plans and a synthetic UI prototype, not a submission-ready application; see the [roadmap compliance table](02-roadmap.md#54-buildathon-fit-and-compliance-status).
 
 **Improvement priority:** make the existing order easier to understand and harder to misuse. Start with [purposeful Midnight patterns](#69-purposeful-midnight-patterns), [the wallet/session contract](#342-wallet-integration-and-identity-lifecycle), and [the task-first buyer journey](#82-buyer-experience). Prove safe sponsorship before spending time on an archive or decorative 3D. “Premium” means a distinctive, fast, understandable experience—not more dependencies, concealed wallet requirements, or an award claim.
 
 ## Contents
 
-The [Midnight core audit](08-midnight-core-audit.md) records the September 6 source-backed add/reuse/replace decisions, bilateral trust refinements, hackathon red/yellow risks and next implementation evidence. It preserves this blueprint's protocol and package authority; no optional integration is activated by that report.
+The [Midnight core audit](08-midnight-core-audit.md) records the September 7 source-backed add/reuse/replace decisions, corrected package exports, bilateral trust refinements, hackathon red/yellow risks and next implementation evidence. It preserves this blueprint's protocol and package authority; no optional integration is activated by that report. The roadmap owns readiness and acceptance contracts; [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md) tracks implementation evidence and pending/deferred work. Reading sources or updating specifications does not close a runtime gate.
 
 1. [Product contract](#1-product-contract)
 2. [What Midnight contributes](#2-what-midnight-contributes)
@@ -278,6 +278,10 @@ This choice exposes contract count and adds deployment/proving cost. Measure it 
 **Maintenance authority is also authority.** Midnight supports circuit maintenance, described in its [deployment/operation guide][m17]. Milo's target policy forbids changing active-order rules. Before canonical admission/reservation, verify a supported, irreversible locking/revocation procedure and its effect on every relevant maintenance operation. A retained deployment/maintenance signing key must not quietly permit a circuit replacement. Until that gate passes, label the deployment upgrade-trusted and block the immutable-order/pilot claim. Do not guess that deleting a local key or setting a threshold to zero locks the contract.
 
 The documented ledger default without authority is an empty committee with threshold one, which cannot authorize maintenance; **Midnight.js `deployContract` instead installs a single-signature authority by default** [m17]. Do not conflate those defaults. Verify the actual deployed policy and a rejected maintenance attempt under the exact SDK cohort; deleting a locally generated key is not proof of protocol immutability.
+
+Admission evidence follows one sequence: validate the frozen quote and independent payment window; inspect bootstrap state, entrypoints and artifact/verifier fingerprints; establish and observe the required maintenance policy; atomically bind the canonical address; then prove and observe reservation. Preserve pending identifiers and private recovery context if interrupted between steps. No failed admission can produce a usable order merely because deployment succeeded.
+
+Irreversible maintenance locking trades upgrade flexibility for fixed order rules. Before admitting real orders, document how their bounded lifetime fits the supported proof-system window and how an announced incompatibility stops new admissions. New versions serve new orders; an immutable active order cannot be silently migrated or patched. Retain old artifacts, observations and finance reconciliation, and define operator escalation if an existing order cannot complete. This is a release/availability risk, not permission to add a hidden upgrade key [m17].
 
 ### 3.4 One app sign-in, independent authorization
 
@@ -673,6 +677,8 @@ Refunds and chargebacks/disputes are separate provider-incident observations, no
 
 Use [Stripe manual capture][p1] as the first external-payment adapter, initially **test mode only**. Prefer hosted payment UI to avoid collecting card details. Fixed-price work must complete within the actual provider-reported authorization window. Read `capture_before`; do not hard-code “seven days.” Some card/network combinations have shorter windows.
 
+Keep manual capture explicit: Stripe's `automatic_delayed` can capture before authorization expiry without a Milo approval, so it is not an acceptable expiry workaround. An expired authorization releases the hold; it does not cancel or reopen an already approved Midnight order. Test and display the resulting financial exception separately [p1].
+
 **Select hosted Checkout, not a new browser payment SDK.** A Convex action uses the existing server `stripe` package to create a payment-mode Checkout Session with `payment_intent_data.capture_method: "manual"` and the supported card-method restriction. In the inspected `stripe@22.6.1` declarations, the hosted UI value is `ui_mode: "hosted_page"`; verify the matching account/API version rather than copying an older enum [payment-checkout][payment-package]. Derive line items/currency/amount from the frozen server quote, disable unagreed price adjustments, and send only necessary payment metadata—not the brief or confidential scope. Persist the creation operation before the external call and the returned Session/PaymentIntent mapping as it becomes available; use the same idempotency identity after ambiguity. Redirect through the validated provider-returned Session URL. No `@stripe/stripe-js`, React Stripe package, custom card form or Stripe account login is required for this selected path.
 
 Return to the same membership-checked quote/order through an allowlisted route. A success URL, Checkout completion event or browser-supplied Session ID is not proof of a usable hold: independently retrieve the bound Session/PaymentIntent and charge, require the expected account/environment/amount/currency and `requires_capture`/capturable amount, and inspect `capture_before` before reservation/merchant acceptance. A cancel/back redirect likewise does not prove that no authorization occurred. Recheck wallet/recovery readiness after returning; never auto-submit a stale intent. B-06 must prove the full redirect, interrupted-return, expiry and duplicate-event path. Expire abandoned open Checkout Sessions as well as reconciling any resulting PaymentIntent so a stale payment page cannot authorize a second attempt later.
@@ -921,7 +927,7 @@ An encrypted-delivery extension is deferred until customer need justifies client
 
 ### 6.1 “Latest” means latest appropriate for the compatibility boundary
 
-The final 6 September 2026 registry recheck reconfirmed the ten core product/QA releases and the referenced UI-source package releases. Registry `latest` remains an observation, not the selected compatibility policy: the documented TypeScript/Biome syntax baseline and Compact runtime cohort exceptions below are intentional. No package installation, full resolved lockfile or runtime compatibility claim follows from these metadata checks.
+The 7 September 2026 registry recheck reconfirmed the ten core product/QA releases and their declared peers, and inspected exact Midnight umbrella/protocol/wallet/testkit and optional EffectStream metadata and published source without installing or executing them. It corrected the nonexistent umbrella `/protocol` export below. Other tooling/UI-source pins retain their earlier observation dates; registry `latest` is not a compatibility policy. No installed lockfile or runtime compatibility claim follows from either review.
 
 Versions below were checked against official documentation and public npm metadata on **2026-09-05 and re-audited on 2026-09-06**. They are exact proposed pins, **not a collectively installed or tested set**. The first implementation gate must resolve a lockfile, inspect peers and transitive dependencies, compile a contract, and execute the real browser flow.
 
@@ -934,7 +940,7 @@ Use the newest **verified appropriate** cohort, including exact experimental rel
 | Compact devtools `compact` | `0.5.1` | Official matrix; this is not the compiler or language version |
 | Compact compiler | `0.31.1` | Generate contracts and proof artifacts with this cohort |
 | `@midnight-ntwrk/midnight-js` | `4.1.1` | Contract lifecycle, typed providers, transaction integration |
-| `@midnight-ntwrk/midnight-js/protocol` export | Supplied by `midnight-js@4.1.1` | Public protocol façade; not another direct package declaration |
+| `@midnight-ntwrk/midnight-js-protocol` | `4.1.1` | Declare directly when importing its `/ledger`, `/compact-runtime`, `/compact-js` or other published subpaths; the umbrella has no `/protocol` export |
 | `@midnight-ntwrk/compact-runtime` | `0.16.0` | Cohort pin; npm latest observed `0.19.0` is not selected |
 | `@midnight-ntwrk/compact-js` | `2.5.1` | Protocol dependency; do not independently upgrade |
 | `@midnight-ntwrk/platform-js` | `2.2.4` | Protocol dependency |
@@ -955,7 +961,9 @@ An important naming trap: the old dashed `@midnight-ntwrk/wallet-sdk` registry e
 
 `testkit-js@4.1.1` itself depends on the older dashed Wallet SDK `1.1.0`. Keep testkit in a development/integration workspace and inspect the resolved graph for duplicate wallet/runtime cohorts. Do not force-replace its dependency with the newer scope. If provider types or runtime identities conflict, isolate that integration harness/process and pass serialized fixtures/observations across the boundary rather than sharing incompatible objects.
 
-Use the umbrella's public `@midnight-ntwrk/midnight-js/protocol` export for handwritten ledger/runtime/platform imports [protocol-exports]. The underlying [protocol package][m9] remains in the resolved graph, not an additional direct declaration just to reach the same export. This table inventories the cohort, including dependencies; it is not a command to install every row directly. Declare separately imported provider packages where their documented exports require them. Compiler-generated imports remain the compiler's responsibility; retain any direct declarations their supported build requires, and do not hand-edit generated files or force all transitive runtime versions with a blanket override.
+The published `midnight-js@4.1.1` export map exposes `.`, `/contracts`, `/network-id`, `/types`, `/utils` and `/package.json`, **not `/protocol`** [protocol-exports]. Its root declaration also has no protocol re-export. Use a directly declared `@midnight-ntwrk/midnight-js-protocol@4.1.1` for handwritten `/ledger`, `/compact-runtime`, `/compact-js`, `/platform-js` and `/onchain-runtime` imports [protocol-package-exports]. A transitive dependency does not make its import a supported umbrella subpath or an undeclared direct dependency safe.
+
+Where several core APIs are needed, the supported umbrella subpaths can replace separate direct contracts/network-id/types/utils declarations; those packages remain transitive. A narrower package may be preferable for a single boundary. Choose one documented import style per workspace after typecheck/build evidence, not both by default. Keep separately imported provider packages declared. This cohort table is not an install-every-row command. Retain compiler-required direct runtime declarations, never hand-edit generated imports, and never force incompatible transitive versions through a blanket override.
 
 | Network infrastructure | Preview target | Preprod / Mainnet matrix snapshot |
 | --- | --- | --- |
@@ -965,7 +973,7 @@ Use the umbrella's public `@midnight-ntwrk/midnight-js/protocol` export for hand
 
 These are matrix versions, not invented container tags. Resolve actual image names and immutable digests from the supported local-dev configuration. Never use a mainnet endpoint in a disposable test profile.
 
-**Network-source discrepancy, September 6:** the [August 2026 network report][rev-network] says `2.1.0-beta.1` was released to Preprod/Mainnet, while the freshly fetched matrix still lists `1.0.2`. Keep the matrix cohort as a candidate, not a claim about the live node. Check release notes, actual target endpoint and maintainer guidance together; compile/prove/submit/observe on the named network before closing compatibility. Do not independently replace only the node version or silently call the beta stable. The report's wallet, VIA Labs, Celestia and DUST-sponsorship announcements are discovery leads, not evidence Milo needs bridges, token trading, or a new wallet. Supported wallet capabilities and sponsored-cost/privacy gates still apply.
+**Network-source discrepancy, rechecked September 7:** the matrix already distinguishes Preview from Preprod/Mainnet as shown above; that distinction is not itself a conflict or a new architecture change. The [August 2026 network report][rev-network] separately says `2.1.0-beta.1` was released to Preprod/Mainnet, while the refreshed matrix still lists `1.0.2`. This specific announcement/matrix mismatch remains unresolved. Check release notes, actual target endpoint and maintainer guidance together; compile/prove/submit/observe on the named network before closing compatibility. Do not independently replace only the node version or silently call the beta stable. The report's wallet, VIA Labs, Celestia and DUST-sponsorship announcements are discovery leads, not evidence Milo needs bridges, token trading, or a new wallet. Supported wallet capabilities and sponsored-cost/privacy gates still apply.
 
 ### 6.3 Web, design system, and toolchain
 
@@ -1020,7 +1028,11 @@ Convex is a custom backend/database architecture, not PostgreSQL-as-a-service [r
 
 **Resolved duplication is not automatically removable.** `browser-use-sdk@3.11.3` pins `zod@4.4.3` and includes `dotenv`, alongside Milo's direct Zod `4.5.4`; optional Cascade has its own Zod 3 cohort. Count these resolved versions rather than claiming a single Zod or forcing overrides across API boundaries. Privy's optional Solana/Farcaster/other-chain peers need not be added for auth-only Milo, but its Base UI, Headless UI and styling internals still belong in the measured graph [x7][x13]. Do not fork a vendor SDK to remove implementation dependencies merely to improve the count, or import its transitives as undeclared Milo dependencies.
 
+The September 7 exact metadata also marks Convex's Auth0/Clerk integrations and Browser Use's `@x402/evm`, `@x402/fetch` and `viem` peers optional. Do not add them for the selected Privy custom-JWT and ordinary API-key QA paths. This avoids unnecessary direct declarations, not every existing transitive copy. Recheck resolved peers and browser output at B-01/B-03/B-05; optional-peer metadata alone does not establish working auth or QA. React DOM `19.2.8` requires React `^19.2.8`, while the router accepts `>=19.2.7`; retain the matched pair rather than lowering React to the router's minimum.
+
 ### 6.6 Native integration recipes
+
+**Smaller dependency surface, not weaker evidence.** Prefer already selected native APIs when their behavior meets the same acceptance contract: Bun HTML/CSS tooling instead of another frontend bundler, Convex validators/generated types instead of an ORM or duplicate internal schemas, native Convex JWT verification instead of a second server auth SDK, Web Crypto for ordinary byte digests instead of a general crypto package. Zod remains for external/form JSON, the Stripe SDK for the selected payment adapter, and Compact's typed commitment primitives for protocol encodings. None of these choices implies fewer transitives or measured faster execution. An exact experimental release may replace a dependency only after its export, peer/runtime, privacy, license and equivalent failure-path tests pass; record both graphs and a rollback decision in the existing gate, not a second framework by default.
 
 | Boundary | Recipe | Evidence gate |
 | --- | --- | --- |
@@ -1289,7 +1301,7 @@ These are proposed B-11 acceptance criteria, not observed results or substitutes
 
 ### 9.1 Proposed structure
 
-This is a target layout; these implementation paths do not yet exist.
+This is the target layout. Only the frontend prototype, pure synthetic domain model, fixture artwork and local tooling currently exist; see [implementation progress](PROGRESS_MANIFEST.md). All contract/provider/backend paths remain targets.
 
 ```text
 apps/web/                  Bun HTML entries, React routes, auth bridge, CSS tokens
@@ -1477,6 +1489,8 @@ Research used Firecrawl on the requested UI sites, ThreeUI terms/install pages, 
 
 **September 6 revision:** reread the requested AKINDO overview and August network report; inspect Lumera's announcement, SDK/API/encryption documentation, demo page, npm `0.3.0` artifact and version-specific source. The partnership/API shapes are source-backed; the hybrid architecture and archive policy are Milo decisions; demand, full dependency savings and runtime/storage/proof integration remain untested. No upload, wallet transaction, production-data migration or customer experiment was performed for this documentation revision. The roadmap owns the organizer-conflict evidence and compliance status.
 
+**September 7 evidence turn:** Firecrawl discovery/body retrieval and exact public package metadata/source inspection support the [audit's before/after decisions](08-midnight-core-audit.md#september-7-beforeafter-dependency-decisions). The concrete import correction is the missing umbrella `/protocol` export; the existing network rows and payment-window rule were reconfirmed, not newly invented. Ten core product/QA versions and peers were rechecked; no installed graph, benchmark or dependency reduction was measured. Minimal EffectStream and native auth/tooling are evaluated without adding a backend, wallet or runtime service. Sponsorship stays the first optional next phase after funded-baseline/B-09 evidence. The roadmap's manifest governs implementation authorization and completion, not this source-reading record.
+
 **Midnight archive review, September 6:** the [public archive][blog-archive] and its [terminal API listing][blog-index] exposed 122 entries across 14 cumulative listing pages, from October 2023 through August 2026. After initial HTTP 429 failures, the completed Firecrawl-assisted review returned a per-URL body-read manifest covering **122/122 entries with no remaining unread URLs**, including the August network report. This covers article bodies, not every linked video, repository or external resource. The decision-relevant connector, SDK, Privy, sponsor and Compact claims were checked against primary documentation and versioned source separately. Historical release instructions and partnership announcements are context, not current compatibility evidence; selected findings are linked in §3.4.2, §5.3 and §6.9 rather than turning the archive into a feature backlog.
 
 **Midnight:** [compatibility matrix][m1]; [Compact language][m2]; [runtime tests][m3]; [ledger/time API][m4]; [DUST architecture][m5]; [proof-server privacy][m6]; [private-state API][m7]; [wallet guide][m8]; [protocol façade][m9]; [wallet integration][m10]; [local-dev][m11]; [sponsor release][m12]. The [community RPS sample][m13] is a learning reference for end-to-end wiring, not a production authentication/escrow design or current version authority. The [Kapa/Midnight Expert migration article][m14] is a discovery aid: verify generated advice against current source and compilation.
@@ -1627,6 +1641,7 @@ Research used Firecrawl on the requested UI sites, ThreeUI terms/install pages, 
 [payment-checkout]: https://docs.stripe.com/api/checkout/sessions/create
 [payment-package]: https://registry.npmjs.org/stripe/-/stripe-22.6.1.tgz
 [protocol-exports]: https://registry.npmjs.org/@midnight-ntwrk/midnight-js/4.1.1
+[protocol-package-exports]: https://registry.npmjs.org/@midnight-ntwrk/midnight-js-protocol/4.1.1
 [router-modes]: https://reactrouter.com/start/modes
 [typescript-latest]: https://registry.npmjs.org/typescript/latest
 [biome-support]: https://biomejs.dev/internals/language-support/

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.tools/
+.hoplite/artifacts/
+.hoplite/archive/
+.DS_Store
+*.log
