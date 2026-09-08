@@ -1,6 +1,7 @@
 # Isolated local network candidate
 
-**Unexecuted candidate only. M-01 and R1 are not complete.** This configuration
+**Unexecuted optional Docker candidate only. M-01 and R1 are not complete.** The
+[native lane](native-network.md) has separate executed service evidence. This configuration
 supports the M-01–M-03 technical gate, not browser, payment or production work.
 Canonical requirements remain [Blueprint §6.2](../01-blueprint.md#62-midnight-protocol-cohort)
 and [Roadmap](../02-roadmap.md). Preserve compiler artifacts before any sandbox
@@ -23,7 +24,7 @@ Upstream health checks and the public development block-beneficiary address are
 retained. That address is not a seed or private key.
 
 Public Docker Hub tag metadata retrieved September 7, 2026 supplies the
-multi-platform manifest digests pinned in `compose.yml`:
+multi-platform manifest digests pinned in `infra/midnight/compose.yml`:
 
 | Image | Tag | Manifest digest |
 | --- | --- | --- |
@@ -64,19 +65,15 @@ Do not overwrite another execution's file or print its contents. Required keys:
 - `MILO_LOCAL_PROJECT`: unique lowercase Compose project name for this execution.
 - `MILO_LOCAL_NODE_PORT`, `MILO_LOCAL_INDEXER_PORT`, `MILO_LOCAL_PROOF_PORT`:
   three distinct unused host ports.
-- `MILO_LOCAL_STORAGE_PASSWORD`, `MILO_LOCAL_PUB_SUB_PASSWORD`,
-  `MILO_LOCAL_LEDGER_PASSWORD`: disposable standalone backing-service credentials.
 - `MILO_LOCAL_INDEXER_SECRET`: privately generated 32 random bytes encoded as
   64 hexadecimal characters; never a wallet seed.
 
-**Configuration gate still open:** the pinned standalone image bundles backing
-services. Before supplying passwords, inspect its initialization/configuration
-contract to confirm that those services accept the same supplied values. Setting
-only the indexer client variables does not prove server credentials changed.
-Do not invent compatible passwords, copy exposed upstream defaults into this
-repository, or claim arbitrary random passwords make this image work. If the
-image hardcodes its backing-service credentials, stop and record that limitation
-before selecting a reviewed local-only configuration or changing this candidate.
+**Configuration correction:** inspection of the exact pinned image revision
+established SQLite storage/ledger databases and in-memory pub/sub, not external
+password-backed services. The three earlier password requirements were
+self-imposed and have been removed; see the [source receipt](native-service-sources.md).
+The indexer encryption secret remains required and private. Native execution has
+its own isolated paths and evidence; it does not prove this Compose profile ran.
 The Compose configuration deliberately fails closed when any required value is
 missing. Environment values remain visible to the local Docker administrator;
 this is not a production secret-management design.
@@ -91,10 +88,10 @@ name is read from that file by Compose, never inferred from a checkout folder.
 ```sh
 ENV_FILE=".hoplite/artifacts/local-network/${EXECUTION_ID:?Set your execution ID}.env"
 test -f "$ENV_FILE"
-docker compose --env-file "$ENV_FILE" -f compose.yml --profile local-candidate config --quiet
-docker compose --env-file "$ENV_FILE" -f compose.yml --profile local-candidate pull
-docker compose --env-file "$ENV_FILE" -f compose.yml --profile local-candidate up --detach --wait --wait-timeout 240
-docker compose --env-file "$ENV_FILE" -f compose.yml --profile local-candidate ps
+docker compose --env-file "$ENV_FILE" -f infra/midnight/compose.yml --profile local-candidate config --quiet
+docker compose --env-file "$ENV_FILE" -f infra/midnight/compose.yml --profile local-candidate pull
+docker compose --env-file "$ENV_FILE" -f infra/midnight/compose.yml --profile local-candidate up --detach --wait --wait-timeout 240
+docker compose --env-file "$ENV_FILE" -f infra/midnight/compose.yml --profile local-candidate ps
 ```
 
 `--wait-timeout 240` preserves the upstream harness's startup allowance. Node
@@ -106,7 +103,7 @@ raw container inspection, which can disclose the environment values.
 Teardown **only this execution's** project, including anonymous volumes:
 
 ```sh
-docker compose --env-file "$ENV_FILE" -f compose.yml --profile local-candidate down --volumes --remove-orphans --timeout 30
+docker compose --env-file "$ENV_FILE" -f infra/midnight/compose.yml --profile local-candidate down --volumes --remove-orphans --timeout 30
 ```
 
 Do not use global Docker cleanup or upstream fixed-container-name cleanup. Do not
@@ -118,7 +115,7 @@ only; do not copy it into tracked source, fixtures, logs or receipts.
 
 ## Evidence still required
 
-- Resolve private standalone backing-service configuration and validate Compose
+- Validate the corrected standalone configuration with Compose
   with the actual Docker runtime; none is verified by this file's existence.
 - Pull pinned images and record actual platform/image identities.
 - Boot a fresh isolated project and observe node block 1, indexer progress and

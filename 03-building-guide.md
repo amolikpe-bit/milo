@@ -218,7 +218,7 @@ Use semantic DOM, native CSS, one token system, consistent states, and deliberat
 
 ### 3.6 Infrastructure and observability layer
 
-Version setup and network profiles. Test fixtures are disposable and isolated; production is not. Record actual container digests/tool versions rather than inventing tags from a compatibility table. The [official local-dev repository][g5] is the infrastructure reference, not a reason to assume Docker is already available.
+Version setup and network profiles. Test fixtures are disposable and isolated; production is not. Record actual container/native artifact digests and tool versions rather than inventing tags from a compatibility table. The [official local-dev repository][g5] is the infrastructure reference, not a reason to assume Docker is already available. The [native lane](docs/native-network.md) preserves the pinned candidate and acceptance checks while using verified ordinary executables; its health receipt is not transaction, admission or R1 evidence.
 
 Separate **local Bun**, **browser**, **Convex V8/Node 24 actions**, and **Node-only upstream tooling** dependencies and types. Use one frozen application `bun.lock`; Bun serves local native HTML/React development, runs tests/builds, and does not run inside Convex. The Bun SDK/browser-WASM build and actual supported provider execution are mandatory Midnight gates, not cosmetic build checks. Keep upstream network tooling on its documented runtime, explicit TypeScript checking, and Biome—running TypeScript successfully is not a typecheck. Runtime upgrades are compatibility changes, not cosmetic edits.
 

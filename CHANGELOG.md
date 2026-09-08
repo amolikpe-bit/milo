@@ -2,7 +2,20 @@
 
 Changes are grouped by verified scope. “Added” does not mean a live service or a passed integration gate. Execution status lives in [PROGRESS_MANIFEST.md](PROGRESS_MANIFEST.md).
 
-## Unreleased — verified local compiler/runtime slice
+## Unreleased — native local execution, protocol work ongoing
+
+- Added a repository agent handoff with checkpoint evidence, the exact deployment blocker, ordered continuation steps, reproducible commands, deferred-work triggers and cross-check/publication rules.
+
+- Reconciled stale manifest text with the published native/funding checkpoint: deployment block limits are the active protocol blocker; browser-wallet integration remains distinct from successful CLI funding.
+
+- Verified the existing PR #2 was already merged with passing checks; continued on a fresh authorized branch.
+- Unblocked local execution without Docker: pinned native node produced a block, exact native indexer observed the same block hash, and the pinned prover reported queue availability.
+- Added opt-in, checksum-verified setup, isolated lifecycle controls, interruption regressions and scoped private diagnostics. The remaining Docker provisioning fault is not claimed fixed.
+- Corrected standalone indexer configuration from exact source: SQLite/in-memory services do not require the three previously imposed backing-service passwords. Moved Docker Compose to an explicitly optional fallback.
+- Added an isolated Node 24.20.0 transaction diagnostic with artifact/source validation, private-safe errors, pre-send identifiers and actual-fee DUST readiness. Finalized disposable funding and observed DUST pass; full deployment reaches submission but is rejected by the node's unchanged block limits. Reservation remains unexecuted.
+- Verification: 37 Bun tests/397 assertions and 16 separate Node tests pass, along with lint, typecheck, build and bounded canonical-plan checks. R1, pilot and completed MID-row claims remain withheld.
+
+## Earlier — verified local compiler/runtime slice
 
 - M-01–M-03 moved from PENDING to ONGOING without claiming R1.
 - Installed Compact devtools 0.5.1 and compiler 0.31.1 from exact official release archives with checked publisher SHA-256 digests; setup is repository-owned and Linux x86_64 scoped.

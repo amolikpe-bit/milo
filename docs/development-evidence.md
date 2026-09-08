@@ -1,5 +1,20 @@
 # Development source receipt — 7 September 2026
 
+## Native execution follow-up
+
+The standalone CLI was actually retried with
+`bun run research:developer 'Midnight local development native node proof server run without Docker' --limit 3 --json`.
+It again denied keyless use from this IP and requested an API key. No CLI success
+is claimed and no key was borrowed or exposed. The separately authenticated
+Firecrawl Developer Index returned official native-proving and local-network
+documentation; public web search and exact official release/registry bytes then
+established the runnable artifacts.
+
+- [Official local-proving explanation](https://github.com/midnightntwrk/midnight-docs/blob/7fc45d20a81791e914849a6fa4dcd869c068bf53/docs/guides/local-proving.mdx): native binaries are workable, with platform linking/version responsibility. This is not permission to assume ABI compatibility.
+- [Official generator release v0.4.4](https://github.com/midnightntwrk/create-mn-app/releases/tag/v0.4.4): corroborates node 1.0.0/indexer 4.3.3/prover 8.1.0 and compiler 0.31.1 for its local example. It does not replace Milo's acceptance gates or silently change the isolated testkit wallet cohort.
+- [Native service source receipt](native-service-sources.md): exact image/config/layer/member hashes and startup semantics, verified against actual binaries. The prover's actual ELF is glibc-linked despite source-level musl hints; direct execution, not a search snippet, resolved that distinction.
+- [Executed native lane](native-network.md): ordinary unprivileged services run in this sandbox; Docker remains optional and its platform provisioning failure remains unresolved.
+
 This receipt informs implementation choices; it is not compiler, network or customer evidence. The canonical blueprint, roadmap, building guide and Midnight audit remain authoritative for scope and gates.
 
 ## Selected toolchain
